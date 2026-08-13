@@ -7,7 +7,6 @@ class BinarySearchClass {
             if(list[mid]==target){
                 return mid;
             }
-            System.out.println(mid);
             if(list[mid]>=target){
                 high = mid - 1;
             }else{
@@ -19,7 +18,6 @@ class BinarySearchClass {
 
     public static void main(String[] args) {
         BinarySearchClass BSC = new BinarySearchClass();
-        System.out.println("Hello");
         int[] list = {1, 3, 4, 7, 9, 11, 23};
         System.out.println(BSC.binarySearch(list,25));
     }

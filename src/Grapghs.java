@@ -31,29 +31,47 @@ public class Grapghs {
         return false;
     }
 
-    boolean BFS_r(HashMap<String, ArrayList<String>> graph, String start_pos, String end_pos, ArrayList<String> visited) {
-        ArrayList<String> neighbors;
-        if (visited.isEmpty()) {
-            neighbors = graph.get(start_pos);
-        } else {
-            neighbors = visited;
-        }
-        if (neighbors == null) {
+    boolean BFS_r(
+            HashMap<String, ArrayList<String>> graph,
+            String start,
+            String target
+    ) {
+        Queue<String> queue = new ArrayDeque<>();
+        Set<String> visited = new HashSet<>();
+
+        queue.add(start);
+        visited.add(start);
+
+        return BFS_r1(graph, target, queue, visited);
+    }
+
+    boolean BFS_r1(
+            HashMap<String, ArrayList<String>> graph,
+            String target,
+            Queue<String> queue,
+            Set<String> visited
+    ) {
+        if (queue.isEmpty()) {
             return false;
         }
-        if (neighbors.contains(end_pos)) {
+
+        String current = queue.poll();
+
+        if (current.equals(target)) {
             return true;
-        } else {
+        }
+
+        ArrayList<String> neighbors = graph.get(current);
+
+        if (neighbors != null) {
             for (String neighbor : neighbors) {
-                System.out.println(neighbor);
-                if (!visited.contains(neighbor)) {
-                    visited.add(neighbor);
-                    return BFS_r(graph, start_pos, end_pos, graph.get(neighbor));
+                if (visited.add(neighbor)) {
+                    queue.add(neighbor);
                 }
             }
         }
 
-        return false;
+        return BFS_r1(graph, target, queue, visited);
     }
 
     boolean DFS_r(HashMap<String, ArrayList<String>> grapgh, String start, String target, HashSet<String> visited) {
@@ -111,6 +129,6 @@ public class Grapghs {
         Grapghs g = new Grapghs();
         System.out.println(g.BFS(graph, "A", "J"));
         System.out.println(g.DFS_r(graph, "A", "J", new HashSet<>()));
-        System.out.println(g.BFS_r(graph, "A", "J", new ArrayList<>()));
+        System.out.println(g.BFS_r(graph, "A", "J"));
     }
 }
